@@ -1,4 +1,8 @@
-﻿namespace ControleDeContatos
+﻿using ControleDeContatos.Data;
+using ControleDeContatos.Repositorio;
+using Microsoft.EntityFrameworkCore;
+
+namespace ControleDeContatos
 {
     public class Startup : IStartup
     {
@@ -12,6 +16,9 @@
         {
             // Add services to the container.
             services.AddControllersWithViews();
+            services.AddEntityFrameworkSqlServer()
+                .AddDbContext<BancoContext>(o => o.UseSqlite(Configuration.GetConnectionString("DataBase")));
+            services.AddScoped<IContatoRepositorio, ContatoRepositorio>();
         }
         public void Configure(WebApplication app, IWebHostEnvironment environment)
         {
